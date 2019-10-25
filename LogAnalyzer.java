@@ -85,14 +85,14 @@ public class LogAnalyzer
    private static void processBuyEntry(final String[] words, final Map<String, List<String>> sessionsFromCustomer)
    {
       // string of words is entry
-      if (words.length != VIEW_NUM_FIELDS) { return; }
+      if (words.length != BUY_NUM_FIELDS) { return; }
 
       //find session
-      List<String> session = sessionsFromCustomer.get(words[VIEW_SESSION_ID]);
+      List<String> session = sessionsFromCustomer.get(words[BUY_SESSION_ID]);
 
       //now that we know there is a list, add the current session
-      session.add(words[VIEW_PRODUCT_ID]);
-      session.add(words[VIEW_PRICE]);
+      session.add(words[BUY_PRODUCT_ID]);
+      session.add(words[BUY_PRICE]);
    }
 
       // Entering a END, new map
