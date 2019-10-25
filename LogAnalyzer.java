@@ -128,7 +128,7 @@ public class LogAnalyzer
             processViewEntry(words, sessionsFromCustomer );
             break;
          case BUY_TAG:
-            processBuyEntry(words /* add arguments as needed */ );
+            processBuyEntry(words, sessionsFromCustomer );
             break;
          case END_TAG:
             processEndEntry(words /* add arguments as needed */ );
