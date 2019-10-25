@@ -138,10 +138,11 @@ public class LogAnalyzer
 
       //write this after you have figured out how to store your data
       //make sure that you understand the problem
-   private static void printSessionPriceDifference(
-      /* add parameters as needed */
-      )
+      // purchase price - veiw price
+   private static void printSessionPriceDifference(String session, final Map<String, List<String>> sessionsFromCustomer)
    {
+      List<String> cur_session = sessionsFromCustomer.get(session);
+
       System.out.println("Price Difference for Purchased Product by Session");
 
       /* add printing */
