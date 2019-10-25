@@ -96,12 +96,22 @@ public class LogAnalyzer
    }
 
       // Entering a END, new map
-   private static void processEndEntry(final String[] words)
+   private static void processEndEntry(final String[] words, final Map<String, List<String>> sessionsFromCustomer)
    {
       if (words.length != END_NUM_FIELDS)
       {
          return;
       }
+      List<String> sessions = sessionsFromCustomer
+              .get(words[END_SESSION_ID]);
+      if (sessions == null)
+      {
+         sessions = new LinkedList<>();
+         sessionsFromCustomer.put(words[END_SESSION_ID], sessions);
+      }
+
+      //now that we know there is a list, add the current session
+      sessions.add(words[END_SESSION_ID]);
    }
 
       //this is called by processFile below - its main purpose is
@@ -128,10 +138,10 @@ public class LogAnalyzer
             processViewEntry(words, sessionsFromCustomer );
             break;
          case BUY_TAG:
-            processBuyEntry(words /* add arguments as needed */ );
+            processBuyEntry(words ,sessionsFromCustomer );
             break;
          case END_TAG:
-            processEndEntry(words /* add arguments as needed */ );
+            processEndEntry(words ,sessionsFromCustomer);
             break;
       }
    }
