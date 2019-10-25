@@ -73,10 +73,10 @@ public class LogAnalyzer
       //for this customer, if not create one
       List<String> sessions = sessionsFromCustomer
               .get(words[VIEW_SESSION_ID]);
+
       if (sessions == null)
       {
-         sessions = new LinkedList<>();
-         sessionsFromCustomer.put(words[START_CUSTOMER_ID], sessions);
+
       }
 
       //now that we know there is a list, add the current session
@@ -124,7 +124,7 @@ public class LogAnalyzer
             processStartEntry(words, sessionsFromCustomer);
             break;
          case VIEW_TAG:
-            processViewEntry(words /* add arguments as needed */ );
+            processViewEntry(words, sessionsFromCustomer );
             break;
          case BUY_TAG:
             processBuyEntry(words /* add arguments as needed */ );
