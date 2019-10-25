@@ -39,12 +39,10 @@ public class LogAnalyzer
       //creates a map of sessions to customer ids
    private static void processStartEntry(
       final String[] words,
-      final Map<String, List<String>> sessionsFromCustomer)
+      final List<Session> sessionsFromCustomer)
    {
       if (words.length != START_NUM_FIELDS)
-      {
-         return;
-      }
+      { return; }
 
          //check if there already is a list entry in the map
          //for this customer, if not create one
