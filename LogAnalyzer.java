@@ -67,31 +67,32 @@ public class LogAnalyzer
    private static void processViewEntry(final String[] words,
                                         final Map<String, List<String>> sessionsFromCustomer)
    {
+      // string of words is entry
       if (words.length != VIEW_NUM_FIELDS) { return; }
 
-      //check if there already is a list entry in the map
-      //for this customer, if not create one
-      List<String> sessions = sessionsFromCustomer
-              .get(words[VIEW_SESSION_ID]);
-
-      if (sessions == null)
-      {
-
-      }
+      //find session
+      List<String> session = sessionsFromCustomer.get(words[VIEW_SESSION_ID]);
 
       //now that we know there is a list, add the current session
-      sessions.add(words[START_SESSION_ID]);
+      session.add(words[VIEW_PRODUCT_ID]);
+      session.add(words[VIEW_PRICE]);
    }
 
       //similar to processStartEntry, should store relevant purchases
       //data in a map - model on processStartEntry, but store
       //your data to represent a purchase in the map (not a list of strings)
       // Entering a BUY, new map
-   private static void processBuyEntry(
-      final String[] words
-      /* add parameters as needed */
-      )
+   private static void processBuyEntry(final String[] words, final Map<String, List<String>> sessionsFromCustomer)
    {
+      // string of words is entry
+      if (words.length != VIEW_NUM_FIELDS) { return; }
+
+      //find session
+      List<String> session = sessionsFromCustomer.get(words[VIEW_SESSION_ID]);
+
+      //now that we know there is a list, add the current session
+      session.add(words[VIEW_PRODUCT_ID]);
+      session.add(words[VIEW_PRICE]);
    }
 
       // Entering a END, new map
