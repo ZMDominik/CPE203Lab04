@@ -39,12 +39,10 @@ public class LogAnalyzer
       //creates a map of sessions to customer ids
    private static void processStartEntry(
       final String[] words,
-      final Map<String, List<String>> sessionsFromCustomer)
+      final List<Session> sessionsFromCustomer)
    {
       if (words.length != START_NUM_FIELDS)
-      {
-         return;
-      }
+      { return; }
 
          //check if there already is a list entry in the map
          //for this customer, if not create one
@@ -148,10 +146,11 @@ public class LogAnalyzer
 
       //write this after you have figured out how to store your data
       //make sure that you understand the problem
-   private static void printSessionPriceDifference(
-      /* add parameters as needed */
-      )
+      // purchase price - veiw price
+   private static void printSessionPriceDifference(String session, final Map<String, List<String>> sessionsFromCustomer)
    {
+      List<String> cur_session = sessionsFromCustomer.get(session);
+
       System.out.println("Price Difference for Purchased Product by Session");
 
       /* add printing */
