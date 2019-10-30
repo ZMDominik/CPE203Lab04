@@ -107,10 +107,7 @@ public class LogAnalyzer
    {
       final String[] words = line.split("\\h");
 
-      if (words.length == 0)
-      {
-         return;
-      }
+      if (words.length == 0) { return; }
 
       switch (words[0])
       {
@@ -131,20 +128,41 @@ public class LogAnalyzer
 
       //write this after you have figured out how to store your data
       //make sure that you understand the problem
-      // purchase price - veiw price
-   private static void printSessionPriceDifference(String session, final Map<String, List<String>> sessionsFromCustomer)
-   {
-      List<String> cur_session = sessionsFromCustomer.get(session);
+      // purchase price - view price
+    /* For each sessionId associated with a purchase, print, for each productId,
+    the purchase price (as cents) minus the average price of the items viewed during that session.
+    (Keep in mind that there may be multiple purchases in a given session.) Note that you do not need to account
+     for the quantity of the purchased item, just compute the difference of the amount spent on a given product.*/
 
-      System.out.println("Price Difference for Purchased Product by Session");
+   private static void printSessionPriceDifference(String session, final Map<String, Session> sessionsFromCustomer)
+   {
+      Session cur_session = sessionsFromCustomer.get(session);
+
+      List<View> views = cur_session.getListViews();
+      int view_product = 0;
+      for (View v: views){
+         view_product += v.getPrice();
+      }
+
+      List<Buy> buys = cur_session.getListBuys();
+      int buy_amnt = buys.size();
+      for (Buy b: buys){
+         int prod_price = b.getPrice();
+         System.out.println(b.getProduct() + "has a session difference of" + (prod_price - view_product));
+      }
+
+      //System.out.println("Price Difference for Purchased Product by Session");
 
       /* add printing */
    }
 
       //write this after you have figured out how to store your data
       //make sure that you understand the problem
+   /*• For each customer, for each product that customer purchased, print the number of sessions in which that
+   customer viewed that product. Note you are computing the number of sessions in which the purchased item was
+   viewed, not the total number of views of that item.*/
    private static void printCustomerItemViewsForPurchase(
-           final Map<String, List<String>> sessionsFromCustomer)
+           final Map<String, Session> sessionsFromCustomer)
 
    {
       System.out.println("Number of Views for Purchased Product by Customer");
