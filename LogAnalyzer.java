@@ -128,7 +128,7 @@ public class LogAnalyzer
       //to process the data using the methods you write above
    private static void processLine(
       final String line,
-      final Map<String, Session> sessionsFromCustomer
+      final Map<String, List<Session>> sessionsFromCustomer
       /* add parameters as needed */
       )
    {
@@ -161,21 +161,27 @@ public class LogAnalyzer
     (Keep in mind that there may be multiple purchases in a given session.) Note that you do not need to account
      for the quantity of the purchased item, just compute the difference of the amount spent on a given product.*/
 
-   private static void printSessionPriceDifference(String session, final Map<String, Session> sessionsFromCustomer)
+   private static void printSessionPriceDifference(final Map<String, List<Session>> sessionsFromCustomer)
    {
-      Session cur_session = sessionsFromCustomer.get(session);
+      Session session = new Session("unknown", "unknown");
+      for(Map.Entry<String, List<Session>> entry : sessionsFromCustomer.entrySet()){
+         List<Session> sessions = entry.getValue();
 
-      List<View> views = cur_session.getListViews();
-      int view_product = 0;
-      for (View v: views){
-         view_product += v.getPrice();
-      }
+         for (Session s: sessions){
+            if(s.getListBuys().size() > 0){
+               List<Buy> buys = s.getListBuys();
+               List<View> views = s.getListViews();
+               int view_product = 0;
+               for (View v: views){
+                  view_product += v.getPrice();
+               }
+               int view_avg = view_product/views.size();
 
-      List<Buy> buys = cur_session.getListBuys();
-      int buy_amnt = buys.size();
-      for (Buy b: buys){
-         int prod_price = b.getPrice();
-         System.out.println(b.getProduct() + "has a session difference of" + (prod_price - view_product));
+               for(Buy b: buys){
+                  System.out.println("Session Id: "+ s.getSessionName() + "Product: " + b.getProduct() + "Price Difference: " + (b.getPrice()-view_avg) + " cents");
+               }
+            }
+         }
       }
 
       //System.out.println("Price Difference for Purchased Product by Session");
@@ -189,22 +195,36 @@ public class LogAnalyzer
    customer viewed that product. Note you are computing the number of sessions in which the purchased item was
    viewed, not the total number of views of that item.*/
    private static void printCustomerItemViewsForPurchase(
-           final Map<String, Session> sessionsFromCustomer)
-
+           final Map<String, List<Session>> sessionsFromCustomer)
    {
-      System.out.println("Number of Views for Purchased Product by Customer");
+      Session session = new Session("unknown", "unknown");
+      for(Map.Entry<String, List<Session>> entry : sessionsFromCustomer.entrySet()) {
+         String cust = entry.getKey();
+         List<Session> sessions = entry.getValue();
+
+         Map<String, Integer> prod_views = new HashMap<String, Integer>();
+         for (Session s: sessions){
+            List<Buy> buys = s.getListBuys();
+            for (Buy b: buys){
+               int num_views = prod_views.get(b.getProduct());
+               if (num_views == null){
+                  num_views = 0;
+                  prod_views.put(b.getProduct(), num_views);
+               }
+               num_views += 1;
+            }
+         }
+      }
 
       /* add printing */
    }
 
       //write this after you have figured out how to store your data
       //make sure that you understand the problem
-   private static void printStatistics(
-      /* add parameters as needed */
-      )
+   private static void printStatistics( final Map<String, List<Session>> sessionsFromCustomer)
    {
-      printSessionPriceDifference( /*add arguments as needed */);
-      printCustomerItemViewsForPurchase( /*add arguments as needed */);
+      printSessionPriceDifference(final Map<String, List<Session>> sessionsFromCustomer);
+      printCustomerItemViewsForPurchase(final Map<String, List<Session>> sessionsFromCustomer);
 
       /* This is commented out as it will not work until you read
          in your data to appropriate data structures, but is included
@@ -246,7 +266,7 @@ public class LogAnalyzer
       //called in populateDataStructures
    private static void processFile(
       final Scanner input,
-      final Map<String, List<String>> sessionsFromCustomer
+      final Map<String, List<Session>> sessionsFromCustomer
       /* add parameters as needed */
       )
    {
@@ -260,7 +280,7 @@ public class LogAnalyzer
       //called from main - mostly just pass through important data structures
    private static void populateDataStructures(
       final String filename,
-      final Map<String, List<String>> sessionsFromCustomer
+      final Map<String, List<Session>> sessionsFromCustomer
       /* add parameters as needed */
       )
       throws FileNotFoundException
@@ -288,7 +308,7 @@ public class LogAnalyzer
       /* Map from a customer id to a list of session ids associated with
        * that customer.
        */
-      final Map<String, List<String>> sessionsFromCustomer = new HashMap<>();
+      final Map<String, List<Session>> sessionsFromCustomer = new HashMap<>();
 
       /* create additional data structures to hold relevant information */
       /* they will most likely be maps to important data in the logs */
