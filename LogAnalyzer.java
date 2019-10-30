@@ -222,8 +222,7 @@ public class LogAnalyzer {
                   prod_views.put(v.getProduct(), num_views);
                }
                int i = num_views + 1;
-               System.out.println(" This is line 225: " + i);
-               num_views = i+1;
+               prod_views.put(v.getProduct(), new Integer(i));
             }
          }
 
@@ -236,6 +235,27 @@ public class LogAnalyzer {
       /* add printing */
    }
 
+   private static void printAvgViewsWithoutPurchse(final Map<String, List<Session>> sessionsFromCustomer) {
+
+      Session session = new Session("unknown", "unknown");
+      int all_views = 0;
+      int sess = 0;
+      for (Map.Entry<String, List<Session>> entry : sessionsFromCustomer.entrySet()) {
+         String cust = entry.getKey();
+         List<Session> sessions = entry.getValue();
+
+         for (Session s : sessions) {
+            if (s.getListBuys().size() == 0) {
+               List<View> views = s.getListViews();
+               all_views += views.size();
+            }
+
+         }
+         sess += sessions.size();
+      }
+
+      System.out.println("Purchase not made, but viewed: " + (all_views / sess));
+   }
 
       //write this after you have figured out how to store your data
       //make sure that you understand the problem
@@ -336,6 +356,7 @@ public class LogAnalyzer {
       try
       {
          populateDataStructures(filename, sessionsFromCustomer);
+         printAvgViewsWithoutPurchse(sessionsFromCustomer);
          printStatistics(sessionsFromCustomer);
       }
       catch (FileNotFoundException e)
