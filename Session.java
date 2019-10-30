@@ -24,11 +24,11 @@ public class Session {
         return sessionNumber;
     }
 
-    public ArrayList<View> getLviews() {
+    public ArrayList<View> getListViews() {
         return lViews;
     }
 
-    public ArrayList<Buy> getlBuys() {
+    public ArrayList<Buy> getListBuys() {
         return lBuys;
     }
 }

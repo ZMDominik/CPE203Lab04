@@ -1,10 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class LogAnalyzer
 {
@@ -14,17 +10,20 @@ public class LogAnalyzer
    private static final int START_NUM_FIELDS = 3;
    private static final int START_SESSION_ID = 1;
    private static final int START_CUSTOMER_ID = 2;
+
    private static final String BUY_TAG = "BUY";
    private static final int BUY_NUM_FIELDS = 5;
    private static final int BUY_SESSION_ID = 1;
    private static final int BUY_PRODUCT_ID = 2;
    private static final int BUY_PRICE = 3;
    private static final int BUY_QUANTITY = 4;
+
    private static final String VIEW_TAG = "VIEW";
    private static final int VIEW_NUM_FIELDS = 4;
    private static final int VIEW_SESSION_ID = 1;
    private static final int VIEW_PRODUCT_ID = 2;
    private static final int VIEW_PRICE = 3;
+
    private static final String END_TAG = "END";
    private static final int END_NUM_FIELDS = 2;
    private static final int END_SESSION_ID = 1;
@@ -39,23 +38,22 @@ public class LogAnalyzer
       //creates a map of sessions to customer ids
    private static void processStartEntry(
       final String[] words,
-      final Map<String, List<String>> sessionsFromCustomer)
+      final Map<String, List<Session>> sessionsFromCustomer)
    {
-      if (words.length != START_NUM_FIELDS)
-      { return; }
+      if (words.length != START_NUM_FIELDS) { return; }
 
          //check if there already is a list entry in the map
          //for this customer, if not create one
-      List<String> sessions = sessionsFromCustomer
-         .get(words[START_CUSTOMER_ID]);
+      List<Session> sessions = sessionsFromCustomer.get(words[START_CUSTOMER_ID]);
+
       if (sessions == null)
       {
-         sessions = new LinkedList<>();
+         sessions = new ArrayList<Session>();
          sessionsFromCustomer.put(words[START_CUSTOMER_ID], sessions);
       }
 
          //now that we know there is a list, add the current session
-      sessions.add(words[START_SESSION_ID]);
+      sessions.add(new Session(words[START_SESSION_ID]));
    }
 
       //similar to processStartEntry, should store relevant view
@@ -63,13 +61,13 @@ public class LogAnalyzer
       //your data to represent a view in the map (not a list of strings)
       // Entering a VIEW
    private static void processViewEntry(final String[] words,
-                                        final Map<String, List<String>> sessionsFromCustomer)
+                                        final Map<String, List<Session>> sessionsFromCustomer)
    {
       // string of words is entry
       if (words.length != VIEW_NUM_FIELDS) { return; }
 
       //find session
-      List<String> session = sessionsFromCustomer.get(words[VIEW_SESSION_ID]);
+      List<Session> sessions = sessionsFromCustomer.get(words[VIEW_]);
 
       //now that we know there is a list, add the current session
       session.add(words[VIEW_PRODUCT_ID]);
