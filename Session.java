@@ -17,7 +17,7 @@ public class Session {
 
     public void CreateBuy(String product, int price){ //all creates will look exactly the same
         Buy buy = new Buy();
-        bviews.add(buy);
+        lBuys.add(buy);
     }
 
     public String getSessionNumber() {
@@ -25,10 +25,10 @@ public class Session {
     }
 
     public ArrayList<View> getLviews() {
-        return Lviews;
+        return lViews;
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public ArrayList<Buy> getlBuys() {
+        return lBuys;
     }
 }

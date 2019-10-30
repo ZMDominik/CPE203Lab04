@@ -7,4 +7,12 @@ public class View {
         product = prod;
         price = cost;
     }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public String getProduct() {
+        return product;
+    }
 }
