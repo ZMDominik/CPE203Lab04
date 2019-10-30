@@ -1,10 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class LogAnalyzer
 {
@@ -49,9 +45,9 @@ public class LogAnalyzer
          //check if there already is a list entry in the map
          //for this customer, if not create one
       List<Session> session = sessionsFromCustomer.get(words[START_CUSTOMER_ID]);
-      if (session != null){
-         session = ;
-         sessionsFromCustomer.put(words[START_SESSION_ID]));
+      if (session == null){
+         session = new ArrayList<>();
+         sessionsFromCustomer.put(words[START_CUSTOMER_ID], session);
       }
       session.add(new Session(words[START_CUSTOMER_ID], words[START_SESSION_ID]));
    }
@@ -61,13 +57,22 @@ public class LogAnalyzer
       //your data to represent a view in the map (not a list of strings)
       // Entering a VIEW
    private static void processViewEntry(final String[] words,
-                                        final Map<String, Session> sessionsFromCustomer)
+                                        final Map<String, List<Session>> sessionsFromCustomer)
    {
       // string of words is entry
       if (words.length != VIEW_NUM_FIELDS) { return; }
 
+      Session session = new Session("unknown", "unknown");
       //find session
-      Session session = sessionsFromCustomer.get(words[VIEW_SESSION_ID]);
+      for(Map.Entry<String, List<Session>> entry : sessionsFromCustomer.entrySet()){
+         List<Session> sessions = entry.getValue();
+         for (Session s: sessions){
+            if(s.getSessionName().equals(words [VIEW_SESSION_ID])){
+               session = s;
+               break;
+            }
+         }
+      }
 
       //now that we know there is a list, add the current session
       session.addView(words[VIEW_PRODUCT_ID], Integer.parseInt(words[VIEW_PRICE]));
@@ -77,27 +82,46 @@ public class LogAnalyzer
       //data in a map - model on processStartEntry, but store
       //your data to represent a purchase in the map (not a list of strings)
       // Entering a BUY, new map
-   private static void processBuyEntry(final String[] words, final Map<String, Session> sessionsFromCustomer)
+   private static void processBuyEntry(final String[] words, final Map<String, List<Session>> sessionsFromCustomer)
    {
       // string of words is entry
       if (words.length != BUY_NUM_FIELDS) { return; }
 
       //find session
-      Session session = sessionsFromCustomer.get(words[BUY_SESSION_ID]);
+      Session session = new Session("unknown", "unknown");
+      for(Map.Entry<String, List<Session>> entry : sessionsFromCustomer.entrySet()){
+         List<Session> sessions = entry.getValue();
+         for (Session s: sessions){
+            if(s.getSessionName().equals(words [BUY_SESSION_ID])){
+               session = s;
+               break;
+            }
+         }
+      }
 
       //now that we know there is a list, add the current session
       session.addBuy(words[BUY_PRODUCT_ID], Integer.parseInt(words[BUY_PRICE]), Integer.parseInt(words[BUY_QUANTITY]));
    }
 
       // Entering a END, new map
-   private static void processEndEntry(final String[] words, final Map<String, Session> sessionsFromCustomer)
+   private static void processEndEntry(final String[] words, final Map<String, List<Session>> sessionsFromCustomer)
    {
       if (words.length != END_NUM_FIELDS) { return; }
 
-      Session sessions = sessionsFromCustomer.get(words[END_SESSION_ID]);
+      //find session
+      Session session = new Session("unknown", "unknown");
+      for(Map.Entry<String, List<Session>> entry : sessionsFromCustomer.entrySet()){
+         List<Session> sessions = entry.getValue();
+         for (Session s: sessions){
+            if(s.getSessionName().equals(words [BUY_SESSION_ID])){
+               session = s;
+               break;
+            }
+         }
+      }
 
       //now that we know there is a list, add the current session
-      sessions.addEnd();
+      session.addEnd();
    }
 
       //this is called by processFile below - its main purpose is

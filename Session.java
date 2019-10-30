@@ -1,14 +1,14 @@
 import java.util.ArrayList;
 
 public class Session {
-    private String sessionNumber;
+    private String customerNumber;
     private String sessionName;
     private ArrayList<View> lViews;
     private ArrayList<Buy> lBuys;
     private End e;
 
-    public Session(String sessionNumber, String sessionName){
-        this.sessionNumber = sessionNumber;
+    public Session(String customerNumber, String sessionName){
+        this.customerNumber = customerNumber;
         this.sessionName = sessionName;
     }
 
@@ -23,11 +23,11 @@ public class Session {
     }
 
     public void addEnd(){
-        e = new End(sessionNumber);
+        e = new End(sessionName);
     }
 
-    public String getSessionNumber() {
-        return sessionNumber;
+    public String getSessionName() {
+        return sessionName;
     }
 
     public ArrayList<View> getListViews() {
