@@ -2,19 +2,19 @@ import java.util.ArrayList;
 
 public class Session {
     private String sessionNumber;
-    private String customerId;
-    private ArrayList<View> Lviews;
-    private ArrayList<Buy> bviews;
+    private ArrayList<View> lViews;
+    private ArrayList<Buy> lBuys;
+    private End e;
 
-    public Session(String customerId, String sessionNumber){
+    public Session(String sessionNumber){
         this.sessionNumber = sessionNumber;
-        this.customerId = customerId;
     }
 
     public void CreateView(String product, int price){ //all creates will look exactly the same
-        View v = new View();
-        Lviews.add(v);
+        View v = new View(product, price);
+        lViews.add(v);
     }
+
     public void CreateBuy(String product, int price){ //all creates will look exactly the same
         Buy buy = new Buy();
         bviews.add(buy);
