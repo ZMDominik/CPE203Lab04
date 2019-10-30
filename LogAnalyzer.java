@@ -83,33 +83,25 @@ public class LogAnalyzer
       Session session = sessionsFromCustomer.get(words[BUY_SESSION_ID]);
 
       //now that we know there is a list, add the current session
-      session.addBuy(words[BUY_PRODUCT_ID], Integer.parseInt(words[BUY_PRICE]));
+      session.addBuy(words[BUY_PRODUCT_ID], Integer.parseInt(words[BUY_PRICE]), Integer.parseInt(words[BUY_QUANTITY]));
    }
 
       // Entering a END, new map
-   private static void processEndEntry(final String[] words, final Map<String, List<String>> sessionsFromCustomer)
+   private static void processEndEntry(final String[] words, final Map<String, Session> sessionsFromCustomer)
    {
-      if (words.length != END_NUM_FIELDS)
-      {
-         return;
-      }
-      List<String> sessions = sessionsFromCustomer
-              .get(words[END_SESSION_ID]);
-      if (sessions == null)
-      {
-         sessions = new LinkedList<>();
-         sessionsFromCustomer.put(words[END_SESSION_ID], sessions);
-      }
+      if (words.length != END_NUM_FIELDS) { return; }
+
+      Session sessions = sessionsFromCustomer.get(words[END_SESSION_ID]);
 
       //now that we know there is a list, add the current session
-      sessions.add(words[END_SESSION_ID]);
+      sessions.addEnd();
    }
 
       //this is called by processFile below - its main purpose is
       //to process the data using the methods you write above
    private static void processLine(
       final String line,
-      final Map<String, List<String>> sessionsFromCustomer
+      final Map<String, Session> sessionsFromCustomer
       /* add parameters as needed */
       )
    {
