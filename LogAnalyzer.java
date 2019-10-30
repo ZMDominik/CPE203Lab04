@@ -45,10 +45,9 @@ public class LogAnalyzer {
       //check if there already is a list entry in the map
       //for this customer, if not create one
       List<Session> session;
-      try{
-         session = sessionsFromCustomer.get(words[START_CUSTOMER_ID]);
-      }
-      catch (NullPointerException e) {
+      session = sessionsFromCustomer.get(words[START_CUSTOMER_ID]);
+
+      if (session == null){
          session = new ArrayList<>();
          sessionsFromCustomer.put(words[START_CUSTOMER_ID], session);
       }
@@ -184,7 +183,7 @@ public class LogAnalyzer {
                int view_avg = view_product / views.size();
 
                for (Buy b : buys) {
-                  System.out.println("Session Id: " + s.getSessionName() + "Product: " + b.getProduct() + "Price Difference: " + (b.getPrice() - view_avg) + " cents");
+                  System.out.println("Session Id: " + s.getSessionName() + " Product: " + b.getProduct() + " Price Difference: " + (b.getPrice() - view_avg) + " cents");
                }
             }
          }
@@ -217,14 +216,14 @@ public class LogAnalyzer {
             List<View> views = s.getListViews();
             Integer num_views;
             for (View v : views) {
-               try {
-                  num_views = prod_views.get(v.getProduct());
-               }
-               catch (NullPointerException e) {
+               num_views = prod_views.get(v.getProduct());
+               if (num_views == null){
                   num_views = 0;
                   prod_views.put(v.getProduct(), num_views);
                }
-               num_views += 1;
+               int i = num_views + 1;
+               System.out.println(" This is line 225: " + i);
+               num_views = i+1;
             }
          }
 

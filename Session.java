@@ -3,8 +3,8 @@ import java.util.ArrayList;
 public class Session {
     private String customerNumber;
     private String sessionName;
-    private ArrayList<View> lViews;
-    private ArrayList<Buy> lBuys;
+    private ArrayList<View> lViews = new ArrayList<View>();
+    private ArrayList<Buy> lBuys = new ArrayList<Buy>();
     private End e;
 
     public Session(String customerNumber, String sessionName){
@@ -36,5 +36,10 @@ public class Session {
 
     public ArrayList<Buy> getListBuys() {
         return lBuys;
+    }
+
+    @Override
+    public String toString() {
+        return sessionName;
     }
 }
