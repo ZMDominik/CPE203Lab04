@@ -1,6 +1,10 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 public class LogAnalyzer
 {
@@ -44,16 +48,15 @@ public class LogAnalyzer
 
          //check if there already is a list entry in the map
          //for this customer, if not create one
-      List<Session> sessions = sessionsFromCustomer.get(words[START_CUSTOMER_ID]);
-
+      List<Session> sessions = sessionsFromCustomer.get(words[START_SESSION_ID]);
       if (sessions == null)
       {
-         sessions = new ArrayList<Session>();
-         sessionsFromCustomer.put(words[START_CUSTOMER_ID], sessions);
+         sessions = new LinkedList<>();
+         sessionsFromCustomer.put(words[START_SESSION_ID], sessions);
       }
 
          //now that we know there is a list, add the current session
-      sessions.add(new Session(words[START_SESSION_ID]));
+      sessions.add(new Session(words[START_CUSTOMER_ID]));
    }
 
       //similar to processStartEntry, should store relevant view
@@ -67,11 +70,10 @@ public class LogAnalyzer
       if (words.length != VIEW_NUM_FIELDS) { return; }
 
       //find session
-      List<Session> sessions = sessionsFromCustomer.get(words[VIEW_]);
+      List<Session> session = sessionsFromCustomer.get(words[VIEW_SESSION_ID]);
 
       //now that we know there is a list, add the current session
-      session.add(words[VIEW_PRODUCT_ID]);
-      session.add(words[VIEW_PRICE]);
+      session.addView(words[VIEW_PRODUCT_ID], words[VIEW_PRICE]);
    }
 
       //similar to processStartEntry, should store relevant purchases
