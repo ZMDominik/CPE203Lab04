@@ -44,11 +44,15 @@ public class LogAnalyzer {
 
       //check if there already is a list entry in the map
       //for this customer, if not create one
-      List<Session> session = sessionsFromCustomer.get(words[START_CUSTOMER_ID]);
-      if (session == null) {
+      List<Session> session;
+      try{
+         session = sessionsFromCustomer.get(words[START_CUSTOMER_ID]);
+      }
+      catch (NullPointerException e) {
          session = new ArrayList<>();
          sessionsFromCustomer.put(words[START_CUSTOMER_ID], session);
       }
+
       session.add(new Session(words[START_CUSTOMER_ID], words[START_SESSION_ID]));
    }
 
@@ -211,9 +215,12 @@ public class LogAnalyzer {
             }
 
             List<View> views = s.getListViews();
+            Integer num_views;
             for (View v : views) {
-               Integer num_views = prod_views.get(v.getProduct());
-               if (num_views == null) {
+               try {
+                  num_views = prod_views.get(v.getProduct());
+               }
+               catch (NullPointerException e) {
                   num_views = 0;
                   prod_views.put(v.getProduct(), num_views);
                }
