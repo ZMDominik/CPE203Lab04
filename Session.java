@@ -1,18 +1,34 @@
+import java.util.ArrayList;
+
 public class Session {
     private String sessionNumber;
-    private String product;
-    private int price;
-    private int quantity;
-    public Session(String s, String product, int price){
-        this.sessionNumber = s;
-        this.price = price;
-        this.product = product;
-        this.quantity = 0;
+    private String customerId;
+    private ArrayList<View> Lviews;
+    private ArrayList<Buy> bviews;
+
+    public Session(String customerId, String sessionNumber){
+        this.sessionNumber = sessionNumber;
+        this.customerId = customerId;
     }
-    public Session(String s, String product, int price, int quantity){
-        this.sessionNumber = s;
-        this.price = price;
-        this.product = product;
-        this.quantity = quantity;
+
+    public void CreateView(String product, int price){ //all creates will look exactly the same
+        View v = new View();
+        Lviews.add(v);
+    }
+    public void CreateBuy(String product, int price){ //all creates will look exactly the same
+        Buy buy = new Buy();
+        bviews.add(buy);
+    }
+
+    public String getSessionNumber() {
+        return sessionNumber;
+    }
+
+    public ArrayList<View> getLviews() {
+        return Lviews;
+    }
+
+    public String getCustomerId() {
+        return customerId;
     }
 }
