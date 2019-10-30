@@ -2,12 +2,14 @@ import java.util.ArrayList;
 
 public class Session {
     private String sessionNumber;
+    private String sessionName;
     private ArrayList<View> lViews;
     private ArrayList<Buy> lBuys;
     private End e;
 
-    public Session(String sessionNumber){
+    public Session(String sessionNumber, String sessionName){
         this.sessionNumber = sessionNumber;
+        this.sessionName = sessionName;
     }
 
     public void addBuy(String product, int price, int quantity){

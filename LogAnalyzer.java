@@ -42,15 +42,18 @@ public class LogAnalyzer
       //creates a map of sessions to customer ids
    private static void processStartEntry(
       final String[] words,
-      final Map<String, Session> sessionsFromCustomer)
+      final Map<String, List<Session>> sessionsFromCustomer)
    {
       if (words.length != START_NUM_FIELDS) { return; }
 
          //check if there already is a list entry in the map
          //for this customer, if not create one
-      Session session = sessionsFromCustomer.get(words[START_SESSION_ID]);
-      session = new Session(words[START_CUSTOMER_ID]);
-      sessionsFromCustomer.put(words[START_SESSION_ID], session);
+      List<Session> session = sessionsFromCustomer.get(words[START_CUSTOMER_ID]);
+      if (session != null){
+         session = ;
+         sessionsFromCustomer.put(words[START_SESSION_ID]));
+      }
+      session.add(new Session(words[START_CUSTOMER_ID], words[START_SESSION_ID]));
    }
 
       //similar to processStartEntry, should store relevant view
