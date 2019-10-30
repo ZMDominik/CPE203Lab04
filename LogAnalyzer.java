@@ -42,21 +42,15 @@ public class LogAnalyzer
       //creates a map of sessions to customer ids
    private static void processStartEntry(
       final String[] words,
-      final Map<String, List<Session>> sessionsFromCustomer)
+      final Map<String, Session> sessionsFromCustomer)
    {
       if (words.length != START_NUM_FIELDS) { return; }
 
          //check if there already is a list entry in the map
          //for this customer, if not create one
-      List<Session> sessions = sessionsFromCustomer.get(words[START_SESSION_ID]);
-      if (sessions == null)
-      {
-         sessions = new LinkedList<>();
-         sessionsFromCustomer.put(words[START_SESSION_ID], sessions);
-      }
-
-         //now that we know there is a list, add the current session
-      sessions.add(new Session(words[START_CUSTOMER_ID]));
+      Session session = sessionsFromCustomer.get(words[START_SESSION_ID]);
+      session = new Session(words[START_CUSTOMER_ID]);
+      sessionsFromCustomer.put(words[START_SESSION_ID], session);
    }
 
       //similar to processStartEntry, should store relevant view
@@ -64,33 +58,32 @@ public class LogAnalyzer
       //your data to represent a view in the map (not a list of strings)
       // Entering a VIEW
    private static void processViewEntry(final String[] words,
-                                        final Map<String, List<Session>> sessionsFromCustomer)
+                                        final Map<String, Session> sessionsFromCustomer)
    {
       // string of words is entry
       if (words.length != VIEW_NUM_FIELDS) { return; }
 
       //find session
-      List<Session> session = sessionsFromCustomer.get(words[VIEW_SESSION_ID]);
+      Session session = sessionsFromCustomer.get(words[VIEW_SESSION_ID]);
 
       //now that we know there is a list, add the current session
-      session.addView(words[VIEW_PRODUCT_ID], words[VIEW_PRICE]);
+      session.addView(words[VIEW_PRODUCT_ID], Integer.parseInt(words[VIEW_PRICE]));
    }
 
       //similar to processStartEntry, should store relevant purchases
       //data in a map - model on processStartEntry, but store
       //your data to represent a purchase in the map (not a list of strings)
       // Entering a BUY, new map
-   private static void processBuyEntry(final String[] words, final Map<String, List<String>> sessionsFromCustomer)
+   private static void processBuyEntry(final String[] words, final Map<String, Session> sessionsFromCustomer)
    {
       // string of words is entry
       if (words.length != BUY_NUM_FIELDS) { return; }
 
       //find session
-      List<String> session = sessionsFromCustomer.get(words[BUY_SESSION_ID]);
+      Session session = sessionsFromCustomer.get(words[BUY_SESSION_ID]);
 
       //now that we know there is a list, add the current session
-      session.add(words[BUY_PRODUCT_ID]);
-      session.add(words[BUY_PRICE]);
+      session.addBuy(words[BUY_PRODUCT_ID], Integer.parseInt(words[BUY_PRICE]));
    }
 
       // Entering a END, new map

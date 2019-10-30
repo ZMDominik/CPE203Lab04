@@ -10,13 +10,13 @@ public class Session {
         this.sessionNumber = sessionNumber;
     }
 
-    public void addView(String product, int price){ //all creates will look exactly the same
+    public void addView(String product, int price){
         View v = new View(product, price);
         lViews.add(v);
     }
 
-    public void addBuy(String product, int price){ //all creates will look exactly the same
-        Buy buy = new Buy();
+    public void addBuy(String product, int price, int quantity){
+        Buy buy = new Buy(product, price, quantity);
         lBuys.add(buy);
     }
 
