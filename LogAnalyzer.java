@@ -39,7 +39,7 @@ public class LogAnalyzer
       //creates a map of sessions to customer ids
    private static void processStartEntry(
       final String[] words,
-      final List<Session> sessionsFromCustomer)
+      final Map<String, List<String>> sessionsFromCustomer)
    {
       if (words.length != START_NUM_FIELDS)
       { return; }
